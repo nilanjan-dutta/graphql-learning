@@ -1,24 +1,31 @@
 class Firned {
-    constructor(id, { firstName, lastName, gender, language, email }){
+    constructor(id, { firstName, lastName, gender, language, email, age, contacts }){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
         this.language = language;
+        this.age = age;
+        this.contacts = contacts;
     }
 }
 
 const friendDB = {};
 
-const resolvers = {
-    getFriend:({id}) => {
-        return new Firned(id, friendDB[id])
+// resolver map
+export const resolvers = {
+    Query : {
+        getFriend:({id}) => {
+            return new Firned(id, friendDB[id])
+        }
     },
-    createFriend: ({input})=> {
-        let id = require('crypto').randomBytes(10).toString('hex');
-        friendDB[id] = input;
-        return new Firned(id, input);
+    Mutation: {
+        createFriend: ({input})=> {
+            let id = require('crypto').randomBytes(10).toString('hex');
+            friendDB[id] = input;
+            return new Firned(id, input);
+        }
     }
 };
 
